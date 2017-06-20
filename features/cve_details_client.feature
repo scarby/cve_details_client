@@ -1,13 +1,25 @@
-Feature: My bootstrapped app kinda works
-  In order to get going on coding my awesome app
-  I want to have aruba and cucumber setup
-  So I don't have to do it myself
+Feature: Command gets new CVE details from cvedetails
 
-  Scenario: App just runs
-    When I get help for "cve_details_client"
+  Scenario: App gets new vulnerabilities from cvedetails
+    Given a file named "cvetest" with:
+    """
+      {
+        "cve_id": "CVE-2017-3733",
+        "update_date": "2017-05-08"
+      }
+    """
+    When I run `cve_details_client openssl cvetest`
     Then the exit status should be 0
-    And the banner should be present
-    And the banner should document that this app takes options
-    And the following options should be documented:
-      |--version|
-    And the banner should document that this app takes no arguments
+    Then the output should contain "CVE"
+
+  Scenario: App should get no new vulnerabilities from cvedetails
+    Given a file named "cvetest" with:
+    """
+      {
+        "cve_id": "CVE-2017-3733",
+        "update_date": "2050-05-08"
+      }
+    """
+    When I run `cve_details_client openssl cvetest`
+    Then the exit status should be 0
+    Then the output should not contain "CVE"

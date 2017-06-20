@@ -22,6 +22,7 @@ class App
       end
       CveDetailsClient.setLastCve(cveFile, { 'cve_id' => newCveJson[0]['cve_id'] , 'update_date' => newCveJson.last['update_date']})
     end
+    exit 0
   end
 
   # supplemental methods here
