@@ -4,6 +4,7 @@ require 'uri'
 require 'nokogiri'
 require 'json'
 require 'date'
+require 'mail'
 
 module CveDetailsClient
 
@@ -59,8 +60,13 @@ def self.getNewCve(cvesJson,date)
   return newCve
 end
 
-def self.emailCVEList(cveJson,email)
-  puts JSON.pretty_generate(cveJson)
+def self.emailCVEList(cveJson,toAddress,fromAddress,product)
+  Mail.deliver do
+    from     fromAddress
+    to       toAddress
+    subject  "cvedetails has new CVEs for #{product}"
+    body     JSON.pretty_generate(cveJson)
+  end
 end
 
 end

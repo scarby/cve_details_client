@@ -8,13 +8,15 @@ class App
   include Methadone::Main
   include Methadone::CLILogging
 
-  main do  |product_name,cveFile,email|
+  main do  |product_name,cveFile,toAddress,fromAddress|
     product =  CveDetailsClient.getProduct('openssl')
     json = CveDetailsClient.getCVElist(product['vendor'],product['product'])
     last = CveDetailsClient.getLastCve(cveFile)
     newCveJson = CveDetailsClient.getNewCve(json, last['update_date'])
     if newCveJson.length > 0
-      CveDetailsClient.emailCVEList(newCveJson,email)
+      if !toAddress.nil? || !fromAddress.nil?
+        CveDetailsClient.emailCVEList(newCveJson,toAddress,fromAddress,product)
+      end
       CveDetailsClient.setLastCve(cveFile, { 'cve_id' => newCveJson[0]['cve_id'] , 'update_date' => newCveJson.last['update_date']})
     end
   end
@@ -27,8 +29,8 @@ class App
 
   arg :product_name
   arg :cveFile
-  arg :email, :optional
-
+  arg :toAddress, :optional
+  arg :fromAddress, :optional
 
   version CveDetailsClient::VERSION
 
