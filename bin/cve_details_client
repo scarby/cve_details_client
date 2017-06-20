@@ -3,6 +3,7 @@
 require 'optparse'
 require 'methadone'
 require 'cve_details_client.rb'
+require 'json'
 
 class App
   include Methadone::Main
@@ -16,6 +17,8 @@ class App
     if newCveJson.length > 0
       if !toAddress.nil? || !fromAddress.nil?
         CveDetailsClient.emailCVEList(newCveJson,toAddress,fromAddress,product)
+      else
+        puts JSON.pretty_generate(newCveJson)
       end
       CveDetailsClient.setLastCve(cveFile, { 'cve_id' => newCveJson[0]['cve_id'] , 'update_date' => newCveJson.last['update_date']})
     end
