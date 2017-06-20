@@ -1,28 +1,24 @@
 # CveDetailsClient
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/cve_details_client`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'cve_details_client'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install cve_details_client
-
 ## Usage
 
-TODO: Write usage instructions here
+After checking out the repo run `bundle install`.
+
+You can then run the cvetest client using `bundle exec bin/cve_details_client product dataFile [toEmail] [fromEmail]`
+
+If the dataFile is blank it will check for vulnerabilities from the current day which there may not be any of - create one with content like:
+
+```
+  {
+    "cve_id": "CVE-2017-3733",
+    "update_date": "2017-03-08"
+```
+
+After running the CVE details will be updated with the details of the most recently updated found CVE
+
+if e-mail details are omitted output will be printed to STDOut In order to send SMTP is required to be setup locally
+
+
 
 ## Development
 
@@ -32,4 +28,4 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/cve_details_client.
+Bug reports and pull requests are welcome on GitHub at https://github.com/Scarby/cve_details_client.
