@@ -10,9 +10,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Adam Scarborough"]
   spec.email         = ["scarby2@gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = 'client for cvedetails to retrieve the latest cve listings for a specific product'
+  spec.homepage      = "https://github.com/scarby/cve_details_client"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
@@ -36,4 +35,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('aruba')
   spec.add_dependency('methadone', '~> 1.9.5')
   spec.add_development_dependency('test-unit')
+  spec.add_dependency('nokogiri')
 end

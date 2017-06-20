@@ -8,32 +8,27 @@ class App
   include Methadone::Main
   include Methadone::CLILogging
 
-  main do # Add args you want: |like,so|
-    # your program code here
-    # You can access CLI options via
-    # the options Hash
+  main do  |product_name,cveFile,email|
+    product =  CveDetailsClient.getProduct('openssl')
+    json = CveDetailsClient.getCVElist(product['vendor'],product['product'])
+    last = CveDetailsClient.getLastCve(cveFile)
+    newCveJson = CveDetailsClient.getNewCve(json, last['update_date'])
+    if newCveJson.length > 0
+      CveDetailsClient.emailCVEList(newCveJson,email)
+      CveDetailsClient.setLastCve(cveFile, { 'cve_id' => newCveJson[0]['cve_id'] , 'update_date' => newCveJson.last['update_date']})
+    end
   end
 
   # supplemental methods here
 
   # Declare command-line interface here
 
-  # description "one line description of your app"
-  #
-  # Accept flags via:
-  # on("--flag VAL","Some flag")
-  # options[flag] will contain VAL
-  #
-  # Specify switches via:
-  # on("--[no-]switch","Some switch")
-  #
-  # Or, just call OptionParser methods on opts
-  #
-  # Require an argument
-  # arg :some_arg 
-  #
-  # # Make an argument optional
-  # arg :optional_arg, :optional
+  description "client for cvedetails to retrieve the latest cve listings for a specific producty"
+
+  arg :product_name
+  arg :cveFile
+  arg :email, :optional
+
 
   version CveDetailsClient::VERSION
 
