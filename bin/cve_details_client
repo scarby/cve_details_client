@@ -10,7 +10,7 @@ class App
   include Methadone::CLILogging
 
   main do  |product_name,cveFile,toAddress,fromAddress|
-    product =  CveDetailsClient.getProduct('openssl')
+    product =  CveDetailsClient.getProduct(product_name)
     json = CveDetailsClient.getCVElist(product['vendor'],product['product'])
     last = CveDetailsClient.getLastCve(cveFile)
     newCveJson = CveDetailsClient.getNewCve(json, last['update_date'])
